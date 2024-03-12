@@ -1,6 +1,7 @@
 package com.backend.lunchapp.service;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,12 +24,17 @@ public class RestaurantService {
         return restaurantRepository.findByUsernameAndSessionCode(username, sessionCode);
     }
     public List<String> getRestaurantNamesBySessionCode(int sessionCode) {
+        System.out.println("inside egetRestaurantNamesBySessionCode");
         List<Restaurant> restaurants = restaurantRepository.findBySessionCode(sessionCode);
-        return restaurants.stream()
+        if(restaurants.isEmpty()) {
+        	return Collections.emptyList();
+        }
+        else{
+        	return restaurants.stream()
                 .map(Restaurant::getRestaurantName)
                 .collect(Collectors.toList());
+        }
     }
-
 
     public Restaurant saveRestaurant(String username, int sessionCode, String restaurantName) {
         Restaurant restaurant = new Restaurant();
@@ -45,10 +51,6 @@ public class RestaurantService {
     	System.out.println(restaurantRequest.getUsername());
 
     	try {
-//            if (!sessionService.isSessionActive(restaurantRequest.getUsername(), restaurantRequest.getSessionCode())) {
-//                throw new SessionInactiveException("Session is not active.");
-//            }
-        	System.out.println("active sessions");
             Restaurant restaurant = new Restaurant();
             restaurant.setUsername(restaurantRequest.getUsername());
             restaurant.setSessionCode(restaurantRequest.getSessionCode());
@@ -69,7 +71,6 @@ public class RestaurantService {
         return restaurantRepository.findBySessionCodeAndUsername(sessionCode, username);
     }
     public List<Restaurant> getSubmittedRestaurants(int sessionCode) {
-
         return restaurantRepository.findBySessionCode(sessionCode);
 
     }

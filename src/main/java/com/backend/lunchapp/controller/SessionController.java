@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.lunchapp.model.SessionRequest;
 import com.backend.lunchapp.model.Session;
+import com.backend.lunchapp.model.SessionDetailsResponse;
 import com.backend.lunchapp.service.SessionService;
 import com.backend.lunchapp.service.RestaurantService;
 
@@ -58,11 +59,12 @@ public class SessionController {
     @GetMapping("/session/{sessionCode}")
     public ResponseEntity<?> checkActiveSession(@PathVariable int sessionCode) {
         try {
-            Session sessionDetails = sessionService.getActiveSession(sessionCode);
+        	SessionDetailsResponse  sessionDetails = sessionService.getSession(sessionCode);
 
             if (sessionDetails != null) {
                 Map<String, Object> response = new HashMap<>();
                 response.put("sessionDetails", sessionDetails); 
+
                 return ResponseEntity.ok(response);
 
             } else {
@@ -90,17 +92,25 @@ public class SessionController {
     @PostMapping("/end-session")
     public ResponseEntity<?> endSession(@RequestBody SessionRequest endSessionRequest) {
     	System.out.println("in session controller");
-        String username = endSessionRequest.getUsername();
+        String username = endSessionRequest.getUsername().toLowerCase();
         int sessionCode = endSessionRequest.getSessionCode();
     	System.out.println("username is " + username);
     	System.out.println("sessionCode is " + sessionCode);
 
         try {
             boolean endedSession = sessionService.endSession(username, sessionCode);
-            
             if (endedSession) {
             	  // Retrieve all restaurant names for the given session
                 List<String> restaurantNames = restaurentService.getRestaurantNamesBySessionCode(sessionCode);
+                if(restaurantNames.isEmpty()) {
+                    return ResponseEntity.ok(Map.of(
+                            "message", "Successfully ended the session.",
+                            "selectedRestaurant", "No submissions found for the session",
+                            "sessionCode", sessionCode
+                    ));  
+                }
+  
+     
                 String selectedRestaurant = getRandomRestaurantName(restaurantNames);
                 sessionService.saveSelectedRestaurantToSession(sessionCode, selectedRestaurant);
 

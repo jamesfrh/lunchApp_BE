@@ -12,9 +12,12 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.backend.lunchapp.dao.RestaurantRepository;
 import com.backend.lunchapp.dao.SessionRepository;
 import com.backend.lunchapp.dao.UserRepository;
+import com.backend.lunchapp.model.Restaurant;
 import com.backend.lunchapp.model.Session;
+import com.backend.lunchapp.model.SessionDetailsResponse;
 import com.backend.lunchapp.model.User;
 
 import jakarta.websocket.SessionException;
@@ -30,6 +33,8 @@ public class SessionService {
     private JavaMailSender javaMailSender;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RestaurantRepository restaurantRepository;
 
     public int generateRandomSessionCode() {
         return ThreadLocalRandom.current().nextInt(100000, 1000000);
@@ -44,25 +49,23 @@ public class SessionService {
         
         return activeSession.orElse(null);
     }
-    public Session getActiveSession(int sessionCode) {
-        // Assuming that the Session entity has a field 'endTime' to determine if the session is active
+    public SessionDetailsResponse  getSession(int sessionCode) {
         Optional<Session> sessionDetails = sessionRepository.findBySessionCode(sessionCode);
-        
-        return sessionDetails.orElse(null);
+        List<Restaurant> restaurantList = restaurantRepository.findBySessionCode(sessionCode);
+        return new SessionDetailsResponse (sessionDetails.orElse(null), restaurantList);
     }
     public int initiateSession(String username) throws SessionException {
         int generatedSessionCode = generateRandomSessionCode();
         sessionRepository.save(new Session(username, generatedSessionCode, null,LocalDateTime.now(), null));
         
-        // Send email notification to users
-        sendSessionCodeEmail(username, generatedSessionCode);
+        // Send email notification to users UNCOMMENT BEFORE PUSH
+//        sendSessionCodeEmail(username, generatedSessionCode);
         return generatedSessionCode;
     }
     public boolean joinSession(String username, int sessionCode) {
         if (!isValidSessionCode(sessionCode)) {
             return false;
         }
-        // Return the generated session code
         System.out.println("true");
         return true;
     }
@@ -75,7 +78,7 @@ public class SessionService {
     public boolean endSession(String username, int sessionCode) {
         try {
             Optional<Session> optionalSession = sessionRepository.findByUsernameAndSessionCodeAndEndTimeIsNull(username, sessionCode);
-
+            System.out.println("optional session");
             if (optionalSession.isPresent()) {
                 Session session = optionalSession.get();
                 session.setEndTime(LocalDateTime.now());
@@ -123,7 +126,6 @@ public class SessionService {
 
     }
     public boolean checkActiveSession(String username, int sessionCode) {
-        // Assuming you have a Session entity with attributes 'username', 'sessionCode', and 'isActive'
         Optional<Session> optionalSession = sessionRepository.findByUsernameAndSessionCodeAndEndTimeIsNull(username, sessionCode);
         return optionalSession.isPresent();
 
