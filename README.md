@@ -9,7 +9,7 @@ Some assumptions were made to facilitate the development of the application.
 5. Users can join multiple sessions and make submissions in the session joined.
 6. Assuming the data is non-sensitive/non restricted, no password is required for the login.
 
-###Features
+### Features
 1. A user can initiate a session and invite others to join it.
 2. Other users who have joined the session may submit a restaurant of their choice.
 3. All users in the session are able to see restaurants that others have submitted.
@@ -19,11 +19,6 @@ restaurants. All users in the session are then able to see the picked
 restaurant by searching for the session code.
 6. A user should not be able to join a session that has already ended.
 
-#Future releases that can be considered for automatic deployment and scalability
-1. Dockerize the application by creating an image
-2. Pushing the image to AWS ECR and then deploying on ECS fargate
-3. Use RDS mysql
-4. Create a pipeline on AWS which handles the automatic deployment of codes from codeCommit -> codebuild -> codedeply -> ECR -> ECS
 
 
 ### Prerequisites
@@ -42,7 +37,7 @@ restaurant by searching for the session code.
 
 
 ### Installation
-##Frontend Setup for Angular version 16.2.7.
+## Frontend Setup for Angular version 16.2.7.
 This Angular application was developed in Visual Studio Code, Angular version 16.2.7
 
 Clone the project and change into the project directory : URL to clone: https://github.com/jamesfrh/lunchApp_FE.git
@@ -51,7 +46,7 @@ Clone the project and change into the project directory : URL to clone: https://
 4. run "ng serve" to start the front end application
 5. On the browser, go to http://localhost:4200 to start using the application
 
-##Backend Setup for SpringBoot
+## Backend Setup for SpringBoot
 This Springboot application was developed in Spring Tool Suite IDE(STS), you may use eclispe and the process to setup is similar
 
 Cloning the project in the IDE : URL to clone: https://github.com/jamesfrh/lunchApp_BE.git
@@ -71,9 +66,8 @@ After importing the project, you can run the Spring Boot application:
 1.Locate the main class with the main method (usually annotated with @SpringBootApplication).
 2.Right-click on the main class and select "Run As" > "Spring Boot App."
 
-#Future releases that can be considered for automatic deployment and scalability
+### Future releases that can be considered for automatic deployment and scalability
 1. Dockerize the application by creating an image
 2. Pushing the image to AWS ECR and then deploying on ECS fargate
 3. Use RDS mysql
 4. Create a pipeline on AWS which handles the automatic deployment of codes from codeCommit -> codebuild -> codedeply -> ECR -> ECS
-
