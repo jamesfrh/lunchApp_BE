@@ -1,26 +1,27 @@
 # LunchDecisionApp
 
-## Screenshots
+## Screenshots of Front End Pages
 __Screenshots of the front end pages can be found in src/assets/images of the Angular Repository for reference__
 
-## Assumptions
+## Design Considerations and Assumptions Made
 Some assumptions were made to facilitate the development of the application.
-1. Assuming the current data is non-sensitive/non restricted, no password is required for the login
-2. Each user can only initate one session. They cannot create multiple sessions.
-3. When a session is initiated by a user, the backend sends an email notifcation to all users about the new session code. 
-4. Users are not restricted to the number of submissions per session, they may submit as many as they want.
-5. Users can join multiple sessions and make submissions in the session joined.
-6. Assuming the data is non-sensitive/non restricted, no password is required for the login.
+1. Assuming that the current data is non-sensitive/non restricted, no password is required for the login.
+3. Each user can only initate one session. They cannot create multiple sessions.
+4. When a session is initiated by a user, the backend sends an email notifcation to all users about the new session code. 
+5. Users are not restricted to the number of submissions per session, they may submit as many as they want.
+6. Users can join multiple sessions and make submissions in the session joined.
 
-## Features
+## Features Developed
 1. A user can initiate a session and invite others to join it.
 2. Other users who have joined the session may submit a restaurant of their choice.
 3. All users in the session are able to see restaurants that others have submitted.
 4. Only the user who initiated the session is able to end the session.
-5. At the end of a session, a restaurant is randomly picked from all submitted
-restaurants. All users in the session are then able to see the picked
-restaurant by searching for the session code.
+5. At the end of a session, a restaurant is randomly picked from all submitted restaurants. 
 6. A user should not be able to join a session that has already ended.
+7. A user may join and make submissions to multiple sessions.
+8. A user may search for an active session code and view the current list of restaurants submitted.
+9. A user may search for an closed session code and view the randomly selected restaurant.
+
 
 ## API Documentation
 API documentation can be found on http://localhost:8080/swagger-ui/index.html after the Springboot App has started. 
@@ -75,4 +76,4 @@ After importing the project, you can run the Spring Boot application:
 1. Dockerize the application by creating an image
 2. Pushing the image to AWS ECR and then deploying on ECS fargate
 3. Use RDS mysql
-4. Create a pipeline on AWS which handles the automatic deployment of codes from codeCommit -> codebuild -> codedeply -> ECR -> ECS
+4. Create a pipeline on AWS which handles the automatic deployment of codes from codeCommit -> codebuild -> codedeploy -> ECR -> ECS
