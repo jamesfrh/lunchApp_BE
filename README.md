@@ -22,6 +22,10 @@ restaurants. All users in the session are then able to see the picked
 restaurant by searching for the session code.
 6. A user should not be able to join a session that has already ended.
 
+## API Documentation
+API documentation can be found on http://localhost:8080/swagger-ui/index.html after the Springboot App has started. 
+Alternatively, the lunchApp-api-docs.json file is located in src/main/resources of the SpringBoot project folder and can be downloaded and imported into https://editor.swagger.io/ for viewing.
+
 ## Prerequisites
 1. 3 User accounts have been created in the backend. Use these email address to login. You may create more accounts in UserConfiguration.java file in the Springboot app.
     1. james@tech.gov.sg
