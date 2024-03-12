@@ -58,8 +58,8 @@ public class SessionService {
         int generatedSessionCode = generateRandomSessionCode();
         sessionRepository.save(new Session(username, generatedSessionCode, null,LocalDateTime.now(), null));
         
-        // Send email notification to users UNCOMMENT BEFORE PUSH
-//        sendSessionCodeEmail(username, generatedSessionCode);
+//         Send email notification to users UNCOMMENT BEFORE PUSH
+        sendSessionCodeEmail(username, generatedSessionCode);
         return generatedSessionCode;
     }
     public boolean joinSession(String username, int sessionCode) {
